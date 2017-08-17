@@ -36,6 +36,10 @@ body {
     align-content: flex-start;
     border-radius: 5px;
 
+    @media (max-width: 767px) {
+      width: 76%;
+    }
+
     .l-keypad {
       display: -webkit-box;
       display: -ms-flexbox;
