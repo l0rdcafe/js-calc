@@ -111,7 +111,7 @@ view.setUpEvents = function () {
   var keypad = document.getElementById('keypad');
   keypad.addEventListener('click', function (event) {
     var clickedElm = event.target;
-    if ((helpers.hasOperand() && helpers.isOperand(clickedElm.id)) || (helpers.isOperand(clickedElm.id) && helpers.isFactorial())) {
+    if (helpers.isOperand(clickedElm.id) && (helpers.hasOperand() || helpers.isFactorial())) {
       handlers.solveEqu();
       model.equation.left = inputScreen.innerHTML;
       model.equation.right = 0;
