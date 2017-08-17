@@ -1,6 +1,7 @@
 var view = {};
 var model = {};
 var handlers = {};
+var helpers = {};
 var inputScreen = document.getElementById('screen');
 
 model.equation = {
@@ -31,10 +32,13 @@ model.divide = function (a, b) {
 };
 
 model.factorial = function (n) {
+  var result;
   if (n === 0) {
     return 1;
   }
-  return n * model.factorial(n - 1);
+  result = parseFloat(n) * this.factorial(parseFloat(n) - 1);
+
+  return result;
 };
 
 handlers.keyHandle = function (elmCont) {
@@ -81,11 +85,13 @@ handlers.solveEqu = function () {
     result = model.factorial(model.equation.left);
   } else if (model.equation.left !== '') {
     result = inputScreen.innerHTML;
-  } else {
-    result = 0;
   }
   inputScreen.innerHTML = result;
   model.equation.solved = true;
+};
+
+helpers.isNumber = function (char) {
+  return /\d/.test(parseInt(char, 10));
 };
 
 view.setUpEvents = function () {
@@ -93,17 +99,16 @@ view.setUpEvents = function () {
   keypad.addEventListener('click', function (event) {
     var clickedElm = event.target;
     var operands = ['add', 'sbtrct', 'mltply', 'divide', 'fctoril'];
-    if (model.equation.solved && operands.indexOf(clickedElm.id) !== -1) {
+    if ((model.equation.operand !== '' && operands.indexOf(clickedElm.id) !== -1) || (operands.indexOf(clickedElm.id) !== -1 && model.equation.operand === '!')) {
+      handlers.solveEqu();
+      handlers.operandHandle(clickedElm.innerHTML);
       model.equation.left = inputScreen.innerHTML;
       model.equation.right = 0;
       model.equation.solved = false;
-      handlers.operandHandle(clickedElm.innerHTML);
     } else if (operands.indexOf(clickedElm.id) !== -1) {
       handlers.operandHandle(clickedElm.innerHTML);
-    } else if (model.equation.solved) {
-      handlers.clearScreen();
     }
-    if (/\d/.test(parseInt(clickedElm.innerHTML, 10)) || clickedElm.id === 'dot') {
+    if (helpers.isNumber(clickedElm.innerHTML) || clickedElm.id === 'dot') {
       handlers.keyHandle(clickedElm.innerHTML);
     } else if (clickedElm.id === 'clear') {
       handlers.clearScreen();
