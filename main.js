@@ -80,7 +80,7 @@ handlers.solveEqu = function () {
   } else if (model.equation.operand === '!') {
     result = model.factorial(model.equation.left);
   } else if (model.equation.left !== '') {
-    result = model.equation.left;
+    result = inputScreen.innerHTML;
   } else {
     result = 0;
   }
