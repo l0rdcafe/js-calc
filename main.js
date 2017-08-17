@@ -98,10 +98,10 @@ view.setUpEvents = function () {
       model.equation.right = 0;
       model.equation.solved = false;
       handlers.operandHandle(clickedElm.innerHTML);
-    } else if (model.equation.solved) {
-      handlers.clearScreen();
     } else if (operands.indexOf(clickedElm.id) !== -1) {
       handlers.operandHandle(clickedElm.innerHTML);
+    } else if (model.equation.solved) {
+      handlers.clearScreen();
     }
     if (/\d/.test(parseInt(clickedElm.innerHTML, 10)) || clickedElm.id === 'dot') {
       handlers.keyHandle(clickedElm.innerHTML);
