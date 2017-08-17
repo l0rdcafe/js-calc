@@ -94,18 +94,30 @@ helpers.isNumber = function (char) {
   return /\d/.test(parseInt(char, 10));
 };
 
+helpers.isOperand = function (id) {
+  var operands = ['add', 'sbtrct', 'mltply', 'divide', 'fctoril'];
+  return operands.indexOf(id) !== -1;
+};
+
+helpers.isFactorial = function () {
+  return model.equation.operand === '!';
+};
+
+helpers.hasOperand = function () {
+  return model.equation.operand !== '';
+};
+
 view.setUpEvents = function () {
   var keypad = document.getElementById('keypad');
   keypad.addEventListener('click', function (event) {
     var clickedElm = event.target;
-    var operands = ['add', 'sbtrct', 'mltply', 'divide', 'fctoril'];
-    if ((model.equation.operand !== '' && operands.indexOf(clickedElm.id) !== -1) || (operands.indexOf(clickedElm.id) !== -1 && model.equation.operand === '!')) {
+    if ((helpers.hasOperand() && helpers.isOperand(clickedElm.id)) || (helpers.isOperand(clickedElm.id) && helpers.isFactorial())) {
       handlers.solveEqu();
-      handlers.operandHandle(clickedElm.innerHTML);
       model.equation.left = inputScreen.innerHTML;
       model.equation.right = 0;
       model.equation.solved = false;
-    } else if (operands.indexOf(clickedElm.id) !== -1) {
+      handlers.operandHandle(clickedElm.innerHTML);
+    } else if (helpers.isOperand(clickedElm.id)) {
       handlers.operandHandle(clickedElm.innerHTML);
     }
     if (helpers.isNumber(clickedElm.innerHTML) || clickedElm.id === 'dot') {
