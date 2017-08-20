@@ -56,7 +56,7 @@ handlers.keyHandle = function (elmCont) {
 handlers.operandHandle = function (elmCont) {
   model.equation.operand = '';
   if (elmCont === '!') {
-    inputScreen.innerHTML = '!' + inputScreen.innerHTML;
+    inputScreen.innerHTML += '!';
   } else {
     inputScreen.innerHTML += ' ' + elmCont + ' ';
   }
